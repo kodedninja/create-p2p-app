@@ -25,12 +25,23 @@ exports.writePackage = function (dir, cb) {
     "version": "1.0.0",
     "private": true,
     "scripts": {
-      "build": "browserify source/index.js -o bundles/bundle.js -t sheetify -t yo-yoify -t es2040",
+      "build": "browserify source/index.js -o bundles/bundle.js -t sheetify -t yo-yoify -t es2040 --env NODE_ENV=production",
       "create": "cd source && choo-scaffold",
       "start": "watchify source/index.js -o bundles/bundle.js -t sheetify -t yo-yoify -t es2040",
       "test": "standard && npm run test-deps",
       "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
     }
+  }
+  `
+  write(filename, file, cb)
+}
+
+exports.writeDat = function (dir, cb) {
+  var filename = path.join(dir, 'dat.json')
+  var name = path.basename(dir)
+  var file = dedent`
+  {
+    "title": "${name}"
   }
   `
   write(filename, file, cb)
@@ -47,7 +58,6 @@ exports.writeIgnore = function (dir, cb) {
     npm-debug.log*
     .DS_Store
     .datignore
-    dat.json
   `
 
   write(filename, file, cb)
@@ -229,7 +239,7 @@ exports.writeMainView = function (dir, cb) {
                   Reusable fragments that can be composed into views.
                 </li>
                 <li class="mb3">
-                  <strong>stores/</strong><br>
+                  <strong>plugins/</strong><br>
                   Pieces of logic that are shared by multiple components.
                 </li>
                 <li class="mb3">
@@ -338,9 +348,9 @@ exports.writeIcon = function (dir, cb) {
 exports.writePlugin = function (dir, cb) {
   var filename = path.join(dir, 'source/plugins/clicks.js')
   var file = dedent`
-    module.exports = store
+    module.exports = plugin
 
-    function store (state, emitter) {
+    function plugin (state, emitter) {
       state.totalClicks = 0
 
       emitter.on('DOMContentLoaded', function () {

@@ -87,6 +87,12 @@ async function create (dir, description, argv) {
       lib.writePackage(dir, done)
     },
     function (done) {
+      var filename = 'dat.json'
+      printFile(filename)
+      written.push(path.join(dir, filename))
+      lib.writeDat(dir, done)
+    },
+    function (done) {
       print('\nInstalling packages, this might take a couple of minutes.')
       written.push(path.join(dir, 'node_modules'))
       var pkgs = [
@@ -194,6 +200,8 @@ async function create (dir, description, argv) {
       var msg = dedent`
         App created in ${clr(dir, 'green')}.
         ${clr('All done, good job!', 'magenta')} ${TRAIN}
+
+        Now you only need to run "npm run build" and add the site in Beaker Browser.
 
         The following commands are available:
           ${clr('npm start', 'cyan')}        Start the development server
