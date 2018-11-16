@@ -14,7 +14,7 @@ var lib = require('./')
 var TRAIN = '🚂🚋🚋'
 
 var USAGE = `
-  $ ${clr('create-choo-app', 'bold')} ${clr('<project-directory>', 'green')} [options]
+  $ ${clr('create-p2p-choo-app', 'bold')} ${clr('<project-directory>', 'green')} [options]
 
   Options:
 
@@ -25,10 +25,10 @@ var USAGE = `
   Examples:
 
     Create a new Choo application
-    ${clr('$ create-choo-app', 'cyan')}
+    ${clr('$ create-p2p-choo-app', 'cyan')}
 
   Running into trouble? Feel free to file an issue:
-  ${clr('https://github.com/choojs/create-choo-app/issues/new', 'cyan')}
+  ${clr('https://github.com/kodedninja/create-p2p-choo-app/issues/new', 'cyan')}
 
   Do you enjoy using this software? Become a backer:
   ${clr('https://opencollective.com/choo', 'cyan')}
@@ -36,12 +36,12 @@ var USAGE = `
 
 var NODIR = `
   Please specify the project directory:
-    ${clr('$ create-choo-app', 'cyan')} ${clr('<project-directory>', 'green')}
+    ${clr('$ create-p2p-choo-app', 'cyan')} ${clr('<project-directory>', 'green')}
 
   For example:
-    ${clr('$ create-choo-app', 'cyan')} ${clr('my-choo-app', 'green')}
+    ${clr('$ create-p2p-choo-app', 'cyan')} ${clr('my-choo-app', 'green')}
 
-  Run ${clr('create-choo-app --help', 'cyan')} to see all options.
+  Run ${clr('create-p2p-choo-app --help', 'cyan')} to see all options.
 `.replace(/\n$/, '').replace(/^\n/, '')
 
 var argv = minimist(process.argv.slice(2), {
@@ -91,7 +91,6 @@ async function create (dir, description, argv) {
       written.push(path.join(dir, 'node_modules'))
       var pkgs = [
         'choo',
-        'choo-service-worker',
         'sheetify',
         'tachyons'
       ]
@@ -101,7 +100,10 @@ async function create (dir, description, argv) {
     },
     function (done) {
       var pkgs = [
-        'bankai',
+        'browserify',
+        'watchify',
+        'yo-yoify',
+        'es2040',
         'choo-devtools',
         'choo-scaffold',
         'dependency-check',
@@ -125,40 +127,34 @@ async function create (dir, description, argv) {
       lib.writeReadme(dir, description, done)
     },
     function (done) {
-      var filename = 'index.js'
+      var filename = 'index.html'
+      printFile(filename)
+      written.push(path.join(dir, filename))
+      lib.writeHtml(dir, done)
+    },
+    function (done) {
+      var filename = 'source/index.js'
       printFile(filename)
       written.push(path.join(dir, filename))
       lib.writeIndex(dir, done)
     },
     function (done) {
-      var filename = 'stores/clicks.js'
+      var filename = 'source/plugins/clicks.js'
       printFile(filename)
       written.push(path.join(dir, filename))
-      lib.writeStore(dir, done)
+      lib.writePlugin(dir, done)
     },
     function (done) {
-      var filename = 'sw.js'
-      printFile(filename)
-      written.push(path.join(dir, filename))
-      lib.writeServiceWorker(dir, done)
-    },
-    function (done) {
-      var filename = 'views/main.js'
+      var filename = 'source/views/main.js'
       printFile(filename)
       written.push(path.join(dir, filename))
       lib.writeMainView(dir, done)
     },
     function (done) {
-      var filename = 'views/404.js'
+      var filename = 'source/views/404.js'
       printFile(filename)
       written.push(path.join(dir, filename))
       lib.writeNotFoundView(dir, done)
-    },
-    function (done) {
-      var filename = 'manifest.json'
-      printFile(filename)
-      written.push(path.join(dir, filename))
-      lib.writeManifest(dir, description, done)
     },
     function (done) {
       var filename = 'assets/icon.png'
@@ -179,7 +175,7 @@ async function create (dir, description, argv) {
       {
         type: 'input',
         name: 'description',
-        message: "What's the purpose of your project? (This is used in the readme & web app manifest.)\n>"
+        message: "What's the purpose of your project? (This is used in the readme)\n>"
       }
     ])
     description = answers.description
@@ -203,7 +199,6 @@ async function create (dir, description, argv) {
           ${clr('npm start', 'cyan')}        Start the development server
           ${clr('npm test', 'cyan')}         Lint, validate deps & run tests
           ${clr('npm run build', 'cyan')}    Compile all files to ${clr('dist/', 'green')}
-          ${clr('npm run inspect', 'cyan')}  Inspect the bundle dependencies
 
         Do you enjoy using this software? Become a backer:
         ${clr('https://opencollective.com/choo', 'cyan')}

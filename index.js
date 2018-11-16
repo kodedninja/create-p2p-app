@@ -25,10 +25,9 @@ exports.writePackage = function (dir, cb) {
     "version": "1.0.0",
     "private": true,
     "scripts": {
-      "build": "bankai build index.js",
-      "create": "choo-scaffold",
-      "inspect": "bankai inspect index.js",
-      "start": "bankai start index.js",
+      "build": "browserify source/index.js -o bundles/bundle.js -t sheetify -t yo-yoify -t es2040",
+      "create": "cd source && choo-scaffold",
+      "start": "watchify source/index.js -o bundles/bundle.js -t sheetify -t yo-yoify -t es2040",
       "test": "standard && npm run test-deps",
       "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
     }
@@ -43,7 +42,7 @@ exports.writeIgnore = function (dir, cb) {
     node_modules/
     .nyc_output/
     coverage/
-    dist/
+    bundles/
     tmp/
     npm-debug.log*
     .DS_Store
@@ -66,14 +65,34 @@ exports.writeReadme = function (dir, description, cb) {
     \`$ npm test\`           | Lint, validate deps & run tests
     \`$ npm run build\`      | Compile all files into \`dist/\`
     \`$ npm run create\`     | Generate a scaffold file
-    \`$ npm run inspect\`    | Inspect the bundle's dependencies
+  `
+
+  write(filename, file, cb)
+}
+
+exports.writeHtml = function (dir, cb) {
+  var filename = path.join(dir, 'index.html')
+  var projectname = path.basename(dir)
+  var file = dedent`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>${projectname}</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      </head>
+      <body>
+        <script src="/bundles/bundle.js"></script>
+      </body>
+    </html>
   `
 
   write(filename, file, cb)
 }
 
 exports.writeIndex = function (dir, cb) {
-  var filename = path.join(dir, 'index.js')
+  var dirname = path.join(dir, 'source')
+  var filename = path.join(dirname, 'index.js')
   var file = dedent`
     var css = require('sheetify')
     var choo = require('choo')
@@ -83,11 +102,9 @@ exports.writeIndex = function (dir, cb) {
     var app = choo()
     if (process.env.NODE_ENV !== 'production') {
       app.use(require('choo-devtools')())
-    } else {
-      app.use(require('choo-service-worker')())
     }
 
-    app.use(require('./stores/clicks'))
+    app.use(require('./plugins/clicks'))
 
     app.route('/', require('./views/main'))
     app.route('/*', require('./views/404'))
@@ -95,70 +112,14 @@ exports.writeIndex = function (dir, cb) {
     module.exports = app.mount('body')\n
   `
 
-  write(filename, file, cb)
-}
-
-exports.writeServiceWorker = function (dir, cb) {
-  var filename = path.join(dir, 'sw.js')
-  var file = dedent`
-    /* eslint-env serviceworker */
-
-    var VERSION = require('./package.json').version
-    var URLS = process.env.FILE_LIST
-
-    // Respond with cached resources
-    self.addEventListener('fetch', function (e) {
-      e.respondWith(self.caches.match(e.request).then(function (request) {
-        if (request) return request
-        else return self.fetch(e.request)
-      }))
-    })
-
-    // Register worker
-    self.addEventListener('install', function (e) {
-      e.waitUntil(self.caches.open(VERSION).then(function (cache) {
-        return cache.addAll(URLS)
-      }))
-    })
-
-    // Remove outdated resources
-    self.addEventListener('activate', function (e) {
-      e.waitUntil(self.caches.keys().then(function (keyList) {
-        return Promise.all(keyList.map(function (key, i) {
-          if (keyList[i] !== VERSION) return self.caches.delete(keyList[i])
-        }))
-      }))
-    })\n
-  `
-
-  write(filename, file, cb)
-}
-
-exports.writeManifest = function (dir, description, cb) {
-  var filename = path.join(dir, 'manifest.json')
-  var name = path.basename(dir)
-  var file = dedent`
-    {
-      "name": "${name}",
-      "short_name": "${name}",
-      "description": "${description}",
-      "start_url": "/",
-      "display": "standalone",
-      "background_color": "#000",
-      "theme_color": "#000",
-      "icons": [{
-        "src": "/assets/icon.png",
-        "type": "image/png",
-        "sizes": "512x512"
-      }]
-    }
-  `
-
-  write(filename, file, cb)
+  mkdirp(dirname, function (err) {
+    if (err) return cb(new Error('Could not create directory ' + dirname))
+    write(filename, file, cb)
+  })
 }
 
 exports.writeNotFoundView = function (dir, cb) {
-  var dirname = path.join(dir, 'views')
+  var dirname = path.join(dir, 'source/views')
   var filename = path.join(dirname, '404.js')
   var projectname = path.basename(dir)
   var file = dedent`
@@ -186,7 +147,7 @@ exports.writeNotFoundView = function (dir, cb) {
 }
 
 exports.writeMainView = function (dir, cb) {
-  var dirname = path.join(dir, 'views')
+  var dirname = path.join(dir, 'source/views')
   var filename = path.join(dirname, 'main.js')
   var projectname = path.basename(dir)
   var file = dedent`
@@ -372,8 +333,8 @@ exports.writeIcon = function (dir, cb) {
   })
 }
 
-exports.writeStore = function (dir, cb) {
-  var filename = path.join(dir, 'stores/clicks.js')
+exports.writePlugin = function (dir, cb) {
+  var filename = path.join(dir, 'source/plugins/clicks.js')
   var file = dedent`
     module.exports = store
 
