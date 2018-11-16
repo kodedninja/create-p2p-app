@@ -20,7 +20,7 @@ Name                                                                 | Dependenc
 [tachyons](http://tachyons.io/)                                      | Production      | A minimalist CSS toolkit.
 [bankai](https://github.com/choojs/bankai)                           | Development     | An asset bundler and static file server.
 [browserify](https://github.com/browserify/browserify)               | Development     | `require('modules')` in the browser                        
-[watchify])(https://github.com/browserify/watchify)                  | Development     | Watch mode for browserify builds
+[watchify](https://github.com/browserify/watchify)                   | Development     | Watch mode for browserify builds
 [choo-devtools](https://github.com/choojs/choo-devtools)             | Development     | Debug Choo applications.
 [choo-scaffold](https://github.com/choojs/choo-scaffold)             | Development     | Generate new application files.
 [dependency-check](https://github.com/maxogden/dependency-check)     | Development     | Verify project dependencies.
