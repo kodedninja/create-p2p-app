@@ -46,6 +46,8 @@ exports.writeIgnore = function (dir, cb) {
     tmp/
     npm-debug.log*
     .DS_Store
+    .datignore
+    dat.json
   `
 
   write(filename, file, cb)
