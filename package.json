@@ -1,10 +1,10 @@
 {
-  "name": "create-choo-app",
-  "description": "Create a fresh choo application",
-  "repository": "choojs/create-choo-app",
-  "version": "1.12.3",
+  "name": "create-p2p-choo-app",
+  "description": "Create a fresh peer-to-peer choo application",
+  "repository": "koodedninja/create-p2p-choo-app",
+  "version": "1.0.0",
   "bin": {
-    "create-choo-app": "./bin.js"
+    "create-p2p-choo-app": "./bin.js"
   },
   "scripts": {
     "deps": "dependency-check . && dependency-check . -i ./bin.js --extra --no-dev",
