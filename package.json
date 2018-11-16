@@ -2,7 +2,7 @@
   "name": "create-p2p-app",
   "description": "Create a fresh peer-to-peer choo application",
   "repository": "kodedninja/create-p2p-app",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "bin": {
     "create-p2p-app": "./bin.js"
   },
