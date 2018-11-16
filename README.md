@@ -1,4 +1,4 @@
-# create-p2p-choo-app
+# create-p2p-app
 
 Create a fresh peer-to-peer choo application. Because starting a new project should take
 minutes, not days.
@@ -7,7 +7,7 @@ A modified, simplified version of [create-choo-app](https://github.com/choojs/cr
 
 ## Usage
 ```sh
-$ npx create-p2p-choo-app <project-directory>
+$ npx create-p2p-app <project-directory>
 ```
 
 ## Dependencies
@@ -32,7 +32,7 @@ If you want to remove Tachyons you can do so by running `npm uninstall tachyons`
 
 ## API
 ```txt
-  $ create-p2p-choo-app <project-directory> [options]
+  $ create-p2p-app <project-directory> [options]
 
   Options:
 
@@ -43,7 +43,7 @@ If you want to remove Tachyons you can do so by running `npm uninstall tachyons`
   Examples:
 
     Create a new Choo application
-    $ create-p2p-choo-app
+    $ create-p2p-app
 
   Running into trouble? Feel free to file an issue:
   https://github.com/choojs/create-choo-app/issues/new

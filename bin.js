@@ -14,7 +14,7 @@ var lib = require('./')
 var TRAIN = '🚂🚋🚋'
 
 var USAGE = `
-  $ ${clr('create-p2p-choo-app', 'bold')} ${clr('<project-directory>', 'green')} [options]
+  $ ${clr('create-p2p-app', 'bold')} ${clr('<project-directory>', 'green')} [options]
 
   Options:
 
@@ -25,10 +25,10 @@ var USAGE = `
   Examples:
 
     Create a new Choo application
-    ${clr('$ create-p2p-choo-app', 'cyan')}
+    ${clr('$ create-p2p-app', 'cyan')}
 
   Running into trouble? Feel free to file an issue:
-  ${clr('https://github.com/kodedninja/create-p2p-choo-app/issues/new', 'cyan')}
+  ${clr('https://github.com/kodedninja/create-p2p-app/issues/new', 'cyan')}
 
   Do you enjoy using this software? Become a backer:
   ${clr('https://opencollective.com/choo', 'cyan')}
@@ -36,12 +36,12 @@ var USAGE = `
 
 var NODIR = `
   Please specify the project directory:
-    ${clr('$ create-p2p-choo-app', 'cyan')} ${clr('<project-directory>', 'green')}
+    ${clr('$ create-p2p-app', 'cyan')} ${clr('<project-directory>', 'green')}
 
   For example:
-    ${clr('$ create-p2p-choo-app', 'cyan')} ${clr('my-choo-app', 'green')}
+    ${clr('$ create-p2p-app', 'cyan')} ${clr('my-choo-app', 'green')}
 
-  Run ${clr('create-p2p-choo-app --help', 'cyan')} to see all options.
+  Run ${clr('create-p2p-app --help', 'cyan')} to see all options.
 `.replace(/\n$/, '').replace(/^\n/, '')
 
 var argv = minimist(process.argv.slice(2), {

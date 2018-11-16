@@ -1,10 +1,10 @@
 {
-  "name": "create-p2p-choo-app",
+  "name": "create-p2p-app",
   "description": "Create a fresh peer-to-peer choo application",
-  "repository": "kodedninja/create-p2p-choo-app",
+  "repository": "kodedninja/create-p2p-app",
   "version": "1.0.0",
   "bin": {
-    "create-p2p-choo-app": "./bin.js"
+    "create-p2p-app": "./bin.js"
   },
   "scripts": {
     "deps": "dependency-check . && dependency-check . -i ./bin.js --extra --no-dev",
