@@ -110,7 +110,6 @@ async function create (dir, description, argv) {
         'watchify',
         'yo-yoify',
         'es2040',
-        'choo-devtools',
         'choo-scaffold',
         'dependency-check',
         'standard'
@@ -206,7 +205,7 @@ async function create (dir, description, argv) {
         The following commands are available:
           ${clr('npm start', 'cyan')}        Start the development server
           ${clr('npm test', 'cyan')}         Lint, validate deps & run tests
-          ${clr('npm run build', 'cyan')}    Compile all files to ${clr('dist/', 'green')}
+          ${clr('npm run build', 'cyan')}    Compile all files
 
         Do you enjoy using this software? Become a backer:
         ${clr('https://opencollective.com/choo', 'cyan')}

@@ -22,14 +22,14 @@ exports.writePackage = function (dir, cb) {
   var file = dedent`
   {
     "name": "${name}",
-    "version": "1.0.0",
+    "version": "0.1.0",
     "private": true,
     "scripts": {
       "build": "browserify source/index.js -o bundles/bundle.js -t sheetify -t yo-yoify -t es2040 --env NODE_ENV=production",
       "create": "cd source && choo-scaffold",
       "start": "watchify source/index.js -o bundles/bundle.js -t sheetify -t yo-yoify -t es2040",
       "test": "standard && npm run test-deps",
-      "test-deps": "dependency-check . && dependency-check . --extra --no-dev -i tachyons"
+      "test-deps": "dependency-check . --entry ./source/index.js && dependency-check . --entry ./source/index.js --extra --no-dev -i tachyons"
     }
   }
   `
@@ -75,7 +75,7 @@ exports.writeReadme = function (dir, description, cb) {
     -----------------------|--------------------------------------------------|
     \`$ npm start\`          | Start the development server
     \`$ npm test\`           | Lint, validate deps & run tests
-    \`$ npm run build\`      | Compile all files into \`dist/\`
+    \`$ npm run build\`      | Compile files
     \`$ npm run create\`     | Generate a scaffold file
   `
 
@@ -112,9 +112,6 @@ exports.writeIndex = function (dir, cb) {
     css('tachyons')
 
     var app = choo()
-    if (process.env.NODE_ENV !== 'production') {
-      app.use(require('choo-devtools')())
-    }
 
     app.use(require('./plugins/clicks'))
 
