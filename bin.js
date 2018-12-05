@@ -98,7 +98,7 @@ async function create (dir, description, argv) {
       var pkgs = [
         'choo',
         'sheetify',
-        'tachyons'
+        'omnomnomnom'
       ]
       var msg = clrInstall(pkgs)
       print('Installing ' + msg + '…')
@@ -154,6 +154,12 @@ async function create (dir, description, argv) {
       printFile(filename)
       written.push(path.join(dir, filename))
       lib.writePlugin(dir, done)
+    },
+    function (done) {
+      var filename = 'source/design/index.js'
+      printFile(filename)
+      written.push(path.join(dir, filename))
+      lib.writeDesign(dir, done)
     },
     function (done) {
       var filename = 'source/views/main.js'

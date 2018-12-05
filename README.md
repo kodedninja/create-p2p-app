@@ -17,7 +17,7 @@ Name                                                                 | Dependenc
 ---------------------------------------------------------------------|-----------------|-------------|
 [choo](https://github.com/choojs/choo)                               | Production      | Fast, 4kb framework.
 [sheetify](https://github.com/stackcss/sheetify/)                    | Production      | Hyper performant CSS-in-JS.
-[tachyons](http://tachyons.io/)                                      | Production      | A minimalist CSS toolkit.
+[omnomnomnom](https://github.com/kodedninja/omnomnomnom)             | Production      | A functional CSS library.
 [bankai](https://github.com/choojs/bankai)                           | Development     | An asset bundler and static file server.
 [browserify](https://github.com/browserify/browserify)*              | Development     | `require('modules')` in the browser                        
 [watchify](https://github.com/browserify/watchify)*                  | Development     | Watch mode for browserify builds
@@ -27,6 +27,8 @@ Name                                                                 | Dependenc
 [standard](https://standardjs.com/)                                  | Development     | Statically check JavaScript files for errors.
 
 `*` plus helper modules for these ([yo-yoify](https://github.com/shama/yo-yoify) and [es2040](https://github.com/ahdinosaur/es2040))
+
+> Note: as a default it installs my little CSS framework, omnomnomnom, but only to speed up my project generation process.
 
 ## Removing Dependencies
 
