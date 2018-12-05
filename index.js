@@ -66,7 +66,7 @@ exports.writeGitIgnore = function (dir, cb) {
 exports.writeDatIgnore = function (dir, cb) {
   var filename = path.join(dir, '.datignore')
   var file = dedent`
-    node_modules/
+    node_modules
   `
 
   write(filename, file, cb)
