@@ -47,7 +47,7 @@ exports.writeDat = function (dir, cb) {
   write(filename, file, cb)
 }
 
-exports.writeIgnore = function (dir, cb) {
+exports.writeGitIgnore = function (dir, cb) {
   var filename = path.join(dir, '.gitignore')
   var file = dedent`
     node_modules/
@@ -57,7 +57,16 @@ exports.writeIgnore = function (dir, cb) {
     tmp/
     npm-debug.log*
     .DS_Store
-    .datignore
+  `
+
+  write(filename, file, cb)
+}
+
+exports.writeDatIgnore = function (dir, cb) {
+  var filename = path.join(dir, '.datignore')
+  var file = dedent`
+    node_modules/
+    bundles/
   `
 
   write(filename, file, cb)
@@ -71,9 +80,9 @@ exports.writeReadme = function (dir, description, cb) {
     ${description}
 
     ## Commands
-    Command                | Description                                      |
-    -----------------------|--------------------------------------------------|
-    \`$ npm start\`          | Start the development server
+    Command                --| Description                                      |
+    -------------------------|--------------------------------------------------|
+    \`$ npm start\`          | Start the watch compiler
     \`$ npm test\`           | Lint, validate deps & run tests
     \`$ npm run build\`      | Compile files
     \`$ npm run create\`     | Generate a scaffold file
@@ -410,6 +419,17 @@ exports.createGit = function (dir, message, cb) {
         })
       })
     })
+  })
+}
+
+exports.runBuild = function (dir, cb) {
+  var build = 'npm run build'
+
+  var popd = pushd(dir)
+  exec(build, function (err) {
+    if (err) return cb(new Error(build))
+    popd()
+    cb()
   })
 }
 

@@ -123,7 +123,13 @@ async function create (dir, description, argv) {
       var filename = '.gitignore'
       printFile(filename)
       written.push(path.join(dir, filename))
-      lib.writeIgnore(dir, done)
+      lib.writeGitIgnore(dir, done)
+    },
+    function (done) {
+      var filename = '.datignore'
+      printFile(filename)
+      written.push(path.join(dir, filename))
+      lib.writeDatIgnore(dir, done)
     },
     function (done) {
       var filename = 'README.md'
@@ -172,6 +178,11 @@ async function create (dir, description, argv) {
       print('\nInitializing ' + clr('git', 'cyan'))
       written.push(path.join(dir, '.git'))
       lib.createGit(dir, message, done)
+    },
+    function (done) {
+      print('\nBuilding project…')
+      written.push(path.join(dir, 'bundles'))
+      lib.runBuild(dir, done)
     }
   ]
 
@@ -200,10 +211,10 @@ async function create (dir, description, argv) {
         App created in ${clr(dir, 'green')}.
         ${clr('All done, good job!', 'magenta')} ${TRAIN}
 
-        Now you only need to run "npm run build" and add the site in Beaker Browser.
+        Now you only need add the site in Beaker Browser.
 
         The following commands are available:
-          ${clr('npm start', 'cyan')}        Start the development server
+          ${clr('npm start', 'cyan')}        Start the watch compiler
           ${clr('npm test', 'cyan')}         Lint, validate deps & run tests
           ${clr('npm run build', 'cyan')}    Compile all files
 
